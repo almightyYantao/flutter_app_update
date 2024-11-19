@@ -24,11 +24,26 @@
     }
 }
 #pragma 版本更新
--(void)update:(id)arguments{
-    NSDictionary *model = arguments[@"model"];
-    NSString *iOSUrl= model[@"iOSUrl"];
-    //直接打开appStore
-    [self openAppStore: iOSUrl];
+-(void)openAppStore:(NSString *)iOSUrl {
+    // 对URL进行编码
+    NSString *encodedUrl = [iOSUrl stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@""] invertedSet]];
+
+    // 将 NSString 转换为 NSURL
+    NSURL *url = [NSURL URLWithString:encodedUrl];
+
+    // 检查是否可以打开该 URL
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        // 打开 URL
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+            if (success) {
+                NSLog(@"Successfully opened the URL.");
+            } else {
+                NSLog(@"Failed to open the URL.");
+            }
+        }];
+    } else {
+        NSLog(@"Cannot open the URL.");
+    }
 }
 #pragma 打开AppStore
 -(void)openAppStore:(NSString *)iOSUrl{

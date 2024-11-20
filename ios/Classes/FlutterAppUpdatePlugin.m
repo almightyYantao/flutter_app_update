@@ -24,6 +24,14 @@
     }
 }
 #pragma 版本更新
+-(void)update:(id)arguments{
+    NSDictionary *model = arguments[@"model"];
+    NSString *iOSUrl= model[@"iOSUrl"];
+    //直接打开appStore
+    [self openAppStore: iOSUrl];
+}
+
+#pragma 打开AppStore
 -(void)openAppStore:(NSString *)iOSUrl {
     // 对URL进行编码
     NSString *encodedUrl = [iOSUrl stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@""] invertedSet]];
@@ -44,11 +52,6 @@
     } else {
         NSLog(@"Cannot open the URL.");
     }
-}
-#pragma 打开AppStore
--(void)openAppStore:(NSString *)iOSUrl{
-    NSString *url = [iOSUrl stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@""] invertedSet]];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
 #pragma 获取UIViewController 然后可以跳转
